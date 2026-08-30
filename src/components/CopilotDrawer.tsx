@@ -110,73 +110,69 @@ export const CopilotDrawer: React.FC<CopilotDrawerProps> = ({
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  const handleSendMessage = (textToSend?: string) => {
-    const query = textToSend || inputText.trim();
-    if (!query) return;
+const handleSendMessage = async (textToSend?: string) => {
+  const query = textToSend || inputText.trim();
+  if (!query) return;
 
-    const userMsg: CopilotMessage = {
-      id: `u-${Date.now()}`,
-      sender: 'user',
-      text: query,
-      timestamp: 'Just now'
-    };
-
-    setMessages((prev) => [...prev, userMsg]);
-    if (!textToSend) setInputText('');
-    setIsTyping(true);
-
-    // AI response engine simulation with Malaysian SME accounting intelligence
-    setTimeout(() => {
-      let replyText = '';
-      let suggestedActions: { label: string; actionId: string }[] | undefined = undefined;
-      const lower = query.toLowerCase();
-
-      if (lower.includes('summarize') || lower.includes('finances') || lower.includes('overview')) {
-        replyText = "Here is your quick financial summary for Aiman's Cafe:\n• Total Revenue: RM 128,430 (+12% vs last month)\n• Total Expenses: RM 68,210 (+5%)\n• Net Profit: RM 60,220 (Healthy 46.8% margin)\n• Cash Balance: RM 45,600 across Maybank and Cash Drawer\n• Receivables: RM 22,800 outstanding (RM 5,600 overdue).";
-        suggestedActions = [
-          { label: 'How can I improve cash flow?', actionId: 'improve_cashflow' },
-          { label: 'Estimate next month profit', actionId: 'estimate_profit' }
-        ];
-      } else if (lower.includes('restock') || lower.includes('cash') || lower.includes('enough')) {
-        replyText = "Yes, you have strong liquidity! Your current cash balance is RM 45,600, with expected client inflows of RM 17,200 this week. After deducting estimated payroll of RM 27,284 at month-end, you have approximately RM 35,516 safe buffer to restock inventory.";
-        suggestedActions = [
-          { label: 'Simulate RM 10k Inventory Purchase', actionId: 'simulate_purchase' }
-        ];
-      } else if (lower.includes('estimate') || lower.includes('next month') || lower.includes('profit')) {
-        replyText = "Based on current recurring contracts (Tech Solutions & Corporate Catering) and seasonal F&B trends in Kuala Lumpur, next month's estimated revenue is RM 134,000 with projected expenses of RM 71,000, yielding an estimated Net Profit of RM 63,000 (+4.6%).";
-      } else if (lower.includes('sst') || lower.includes('tax') || lower.includes('filing')) {
-        replyText = "Your SST summary for Q2 2024 (Jan - Jun):\n• Taxable Sales (Goods 10%): RM 300,000 -> RM 30,000 Tax\n• Taxable Services (6%): RM 150,000 -> RM 9,000 Tax\n• Gross SST: RM 39,000\n• Less Input Tax Credit / Exemptions: -RM 17,400\n• Net SST Due to Royal Malaysian Customs: RM 21,600\nDue date: 31 July 2024 (15 days remaining).";
-        suggestedActions = [
-          { label: 'Start SST-02 Filing Now', actionId: 'review_sst_02' }
-        ];
-      } else if (lower.includes('reminder') || lower.includes('overdue') || lower.includes('draft')) {
-        replyText = "I have drafted a polite payment reminder email for Apex Marketing (INV-2023-003, RM 3,200.00, overdue by 14 days) and Aiman's Cafe Events (INV-2023-089, RM 1,250.00). Would you like to preview and dispatch?";
-        suggestedActions = [
-          { label: 'Open Reminder Drafter', actionId: 'open_reminder_modal' }
-        ];
-      } else if (lower.includes('duplicate') || lower.includes('flagged')) {
-        replyText = "I found 2 identical charges of RM 1,200.00 on Jun 8, 2023 for 'Specialty Beans Wholesale Raw Roast'. I recommend contacting Maybank or the supplier to void the second transaction (tx-6).";
-      } else {
-        replyText = `Understood! I've analyzed your financial ledger. For "${query}", everything is synchronized with your Malaysian SST rate (${invoices.length} active invoices tracked). What specific breakdown would you like to review?`;
-        suggestedActions = [
-          { label: 'Summarize my finances', actionId: 'summarize' },
-          { label: 'Do I have enough cash to restock?', actionId: 'restock' }
-        ];
-      }
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: `ai-${Date.now()}`,
-          sender: 'ai',
-          text: replyText,
-          timestamp: 'Just now',
-          suggestedActions
-        }
-      ]);
-      setIsTyping(false);
-    }, 700);
+  const userMsg: CopilotMessage = {
+    id: `u-${Date.now()}`,
+    sender: 'user',
+    text: query,
+    timestamp: 'Just now',
   };
+  setMessages((prev) => [...prev, userMsg]);
+  if (!textToSend) setInputText('');
+  setIsTyping(true);
+
+  const unpaid = invoices.filter((i) => i.status !== 'paid');
+  const overdue = invoices.filter((i) => i.status === 'overdue');
+  const finance = {
+    business: "Aiman's Cafe",
+    currency: 'RM',
+    sstRate: '6% (services)',
+    totalInvoices: invoices.length,
+    outstandingReceivables: unpaid.reduce((s, i) => s + (i.amount || 0), 0),
+    overdueCount: overdue.length,
+    overdueAmount: overdue.reduce((s, i) => s + (i.amount || 0), 0),
+    revenue: 128430,
+    expenses: 68210,
+    netProfit: 60220,
+    cashBalance: 45600,
+  };
+
+  try {
+    const res = await fetch('/api/copilot', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query,
+        finance,
+        history: messages.slice(-6).map((m) => ({
+          role: m.sender === 'ai' ? 'model' : 'user',
+          text: m.text,
+        })),
+      }),
+    });
+    const data = await res.json();
+    const replyText = data.reply || "Sorry, I couldn't get a response. Please try again.";
+    setMessages((prev) => [
+      ...prev,
+      { id: `ai-${Date.now()}`, sender: 'ai', text: replyText, timestamp: 'Just now' },
+    ]);
+  } catch (err) {
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: `ai-${Date.now()}`,
+        sender: 'ai',
+        text: "I can't reach the AI service right now. If you're testing locally with npm run dev, the /api endpoint only works on the deployed Vercel site.",
+        timestamp: 'Just now',
+      },
+    ]);
+  } finally {
+    setIsTyping(false);
+  }
+};
 
   const handleActionClick = (actionId: string) => {
     if (actionId === 'draft_reminders' || actionId === 'open_reminder_modal') {
