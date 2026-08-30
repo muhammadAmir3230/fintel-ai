@@ -154,7 +154,7 @@ const handleSendMessage = async (textToSend?: string) => {
       }),
     });
     const data = await res.json();
-    const replyText = data.reply || "Sorry, I couldn't get a response. Please try again.";
+    const replyText = data.reply || data.error || "Sorry, I couldn't get a response. Please try again.";
     setMessages((prev) => [
       ...prev,
       { id: `ai-${Date.now()}`, sender: 'ai', text: replyText, timestamp: 'Just now' },
