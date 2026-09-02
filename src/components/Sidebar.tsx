@@ -48,12 +48,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <aside 
       id="main-sidebar"
-      className="fixed left-0 top-0 h-screen w-[280px] bg-[#030712]/90 backdrop-blur-2xl text-slate-100 flex flex-col py-6 z-50 select-none shadow-2xl border-r border-slate-800/80"
+      className="fixed left-0 top-0 h-screen w-[280px] bg-[#f8f9ff]/90 backdrop-blur-2xl text-slate-800 flex flex-col py-6 z-50 select-none shadow-2xl border-r border-gray-200/80"
     >
       {/* Brand Header */}
       <div className="px-6 mb-6">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700/60 p-1.5 flex items-center justify-center shadow-lg shadow-black/40 overflow-hidden flex-shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-white border border-gray-200/60 p-1.5 flex items-center justify-center shadow-lg shadow-black/40 overflow-hidden flex-shrink-0">
             <img 
               src={businessProfile.logoUrl} 
               alt="Fintel Logo" 
@@ -63,14 +63,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1.5">
-              <h1 className="font-bold text-xl bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-300 bg-clip-text text-transparent tracking-tight leading-none">
+              <h1 className="font-bold text-xl bg-gradient-to-r from-emerald-400 via-emerald-300 to-pink-300 bg-clip-text text-slate-900 tracking-tight leading-none">
                 Fintel AI
               </h1>
-              <span className="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">
+              <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">
                 SME
               </span>
             </div>
-            <p className="text-xs text-slate-400 font-medium mt-1 truncate">Small Business Mode</p>
+            <p className="text-xs text-slate-600 font-medium mt-1 truncate">Small Business Mode</p>
           </div>
         </div>
       </div>
@@ -80,7 +80,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <button
           id="sidebar-new-invoice-btn"
           onClick={onOpenNewInvoice}
-          className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white py-2.5 px-4 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 transition-all duration-150 active:scale-[0.98] border border-indigo-400/20"
+          className="w-full bg-gradient-to-r from-emerald-600 to-emerald-600 hover:from-emerald-500 hover:to-emerald-500 text-slate-900 py-2.5 px-4 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 transition-all duration-150 active:scale-[0.98] border border-emerald-400/20"
         >
           <Plus className="w-4 h-4 stroke-[2.5]" />
           <span>Create Invoice</span>
@@ -102,19 +102,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
               onClick={() => onSelectTab(item.id)}
               className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 text-left ${
                 isActive
-                  ? 'bg-gradient-to-r from-indigo-500/20 to-purple-500/10 text-indigo-300 border-r-4 border-indigo-500 font-semibold shadow-inner'
-                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/60'
+                  ? 'bg-gradient-to-r from-emerald-500/20 to-emerald-500/10 text-emerald-300 border-r-4 border-emerald-500 font-semibold shadow-inner'
+                  : 'text-slate-600 hover:text-slate-800 hover:bg-gray-50/60'
               }`}
             >
               <div className="flex items-center gap-3">
-                <Icon className={`w-5 h-5 ${isActive ? 'text-indigo-400' : 'text-slate-400'}`} />
+                <Icon className={`w-5 h-5 ${isActive ? 'text-emerald-400' : 'text-slate-600'}`} />
                 <span>{item.label}</span>
               </div>
               {item.badge && (
                 <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                   isActive 
-                    ? 'bg-indigo-500 text-white shadow-sm' 
-                    : 'bg-slate-800 border border-slate-700 text-slate-300'
+                    ? 'bg-emerald-500 text-slate-900 shadow-sm' 
+                    : 'bg-gray-50 border border-gray-200 text-slate-600'
                 }`}>
                   {item.badge}
                 </span>
@@ -129,25 +129,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <button
           id="nav-link-onboarding-wizard"
           onClick={onOpenOnboarding}
-          className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-100 hover:bg-slate-800/60 transition-all text-left"
+          className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:text-slate-800 hover:bg-gray-50/60 transition-all text-left"
         >
-          <Building2 className="w-5 h-5 text-slate-400" />
+          <Building2 className="w-5 h-5 text-slate-600" />
           <span>Business Setup Wizard</span>
         </button>
       </nav>
 
       {/* Footer Settings */}
-      <div className="mt-auto px-3 pt-3 border-t border-slate-800/80 space-y-1">
+      <div className="mt-auto px-3 pt-3 border-t border-gray-200/80 space-y-1">
         <button
           id="nav-link-settings"
           onClick={() => onSelectTab('settings')}
           className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all ${
             currentTab === 'settings'
-              ? 'bg-indigo-500/20 text-indigo-300 font-semibold'
-              : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/60'
+              ? 'bg-emerald-500/20 text-emerald-300 font-semibold'
+              : 'text-slate-600 hover:text-slate-800 hover:bg-gray-50/60'
           }`}
         >
-          <Settings className="w-5 h-5 text-slate-400" />
+          <Settings className="w-5 h-5 text-slate-600" />
           <span>Settings</span>
         </button>
       </div>

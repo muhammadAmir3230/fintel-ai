@@ -11,12 +11,12 @@ export const IncomeVsExpensesChart: React.FC = () => {
     <div className="w-full flex flex-col h-full select-none">
       {/* Legend & Subtitle */}
       <div className="flex items-center justify-end gap-4 mb-3 text-xs">
-        <div className="flex items-center gap-1.5 font-medium text-slate-300">
-          <span className="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
+        <div className="flex items-center gap-1.5 font-medium text-slate-600">
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
           <span>Income</span>
         </div>
-        <div className="flex items-center gap-1.5 font-medium text-slate-300">
-          <span className="w-2.5 h-2.5 rounded-full bg-purple-500"></span>
+        <div className="flex items-center gap-1.5 font-medium text-slate-600">
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
           <span>Expenses</span>
         </div>
       </div>
@@ -28,7 +28,7 @@ export const IncomeVsExpensesChart: React.FC = () => {
           {[140, 100, 60, 20, 0].map((val) => (
             <div key={val} className="w-full flex items-center gap-2">
               <span className="text-[10px] text-slate-500 w-6 text-right font-medium">{val}k</span>
-              <div className="flex-1 border-b border-slate-800/80"></div>
+              <div className="flex-1 border-b border-gray-200/80"></div>
             </div>
           ))}
         </div>
@@ -49,11 +49,11 @@ export const IncomeVsExpensesChart: React.FC = () => {
               >
                 {/* Floating Tooltip */}
                 {isHovered && (
-                  <div className="absolute -top-11 bg-slate-900/95 backdrop-blur-md border border-slate-700 text-slate-100 px-3 py-1.5 rounded-xl text-xs shadow-2xl font-medium z-20 flex flex-col items-center pointer-events-none transition-all glow-indigo">
-                    <span className="text-indigo-400 font-bold">{item.month} Summary</span>
-                    <span className="text-slate-200">Income: RM {item.income}k</span>
-                    <span className="text-slate-400">Expenses: RM {item.expenses}k</span>
-                    <div className="w-2 h-2 bg-slate-900 border-r border-b border-slate-700 rotate-45 -mb-1 absolute -bottom-1"></div>
+                  <div className="absolute -top-11 bg-white/95 backdrop-blur-md border border-gray-200 text-slate-800 px-3 py-1.5 rounded-xl text-xs shadow-2xl font-medium z-20 flex flex-col items-center pointer-events-none transition-all glow-indigo">
+                    <span className="text-emerald-400 font-bold">{item.month} Summary</span>
+                    <span className="text-slate-600">Income: RM {item.income}k</span>
+                    <span className="text-slate-600">Expenses: RM {item.expenses}k</span>
+                    <div className="w-2 h-2 bg-white border-r border-b border-gray-200 rotate-45 -mb-1 absolute -bottom-1"></div>
                   </div>
                 )}
 
@@ -62,18 +62,18 @@ export const IncomeVsExpensesChart: React.FC = () => {
                   {/* Income bar */}
                   <div
                     style={{ height: `${incomeHeight}px` }}
-                    className="w-3 md:w-4 bg-gradient-to-t from-indigo-600 to-indigo-400 rounded-t-md hover:brightness-125 transition-all duration-300 shadow-sm"
+                    className="w-3 md:w-4 bg-gradient-to-t from-emerald-600 to-emerald-400 rounded-t-md hover:brightness-125 transition-all duration-300 shadow-sm"
                   ></div>
                   {/* Expense bar */}
                   <div
                     style={{ height: `${expenseHeight}px` }}
-                    className="w-3 md:w-4 bg-gradient-to-t from-purple-600 to-purple-400 rounded-t-md hover:brightness-125 transition-all duration-300 shadow-sm"
+                    className="w-3 md:w-4 bg-gradient-to-t from-emerald-600 to-emerald-400 rounded-t-md hover:brightness-125 transition-all duration-300 shadow-sm"
                   ></div>
                 </div>
 
                 {/* X-Axis Label */}
                 <span className={`text-xs mt-2 font-medium transition-colors ${
-                  isHovered ? 'text-indigo-400 font-bold' : 'text-slate-500'
+                  isHovered ? 'text-emerald-400 font-bold' : 'text-slate-500'
                 }`}>
                   {item.month}
                 </span>
@@ -138,8 +138,8 @@ export const ExpenseBreakdownDonut: React.FC = () => {
 
         {/* Center Label */}
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <span className="font-bold text-lg md:text-xl text-slate-100 tracking-tight">RM 68k</span>
-          <span className="text-[11px] text-slate-400 font-medium">Total Expenses</span>
+          <span className="font-bold text-lg md:text-xl text-slate-800 tracking-tight">RM 68k</span>
+          <span className="text-[11px] text-slate-600 font-medium">Total Expenses</span>
         </div>
       </div>
 
@@ -154,7 +154,7 @@ export const ExpenseBreakdownDonut: React.FC = () => {
               onMouseEnter={() => setHoveredCategory(item.name)}
               onMouseLeave={() => setHoveredCategory(null)}
               className={`flex items-center justify-between gap-3 text-xs p-1.5 rounded-xl cursor-pointer transition-all ${
-                isHovered ? 'bg-slate-800/80 font-semibold scale-105 shadow-sm border border-slate-700/60' : 'text-slate-300 hover:bg-slate-800/40'
+                isHovered ? 'bg-gray-50/80 font-semibold scale-105 shadow-sm border border-gray-200/60' : 'text-slate-600 hover:bg-gray-50/40'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -162,11 +162,11 @@ export const ExpenseBreakdownDonut: React.FC = () => {
                   className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                   style={{ backgroundColor: color }}
                 ></span>
-                <span className="text-slate-300">{item.name}</span>
+                <span className="text-slate-600">{item.name}</span>
               </div>
               <div className="text-right">
-                <span className="text-slate-100 font-bold">{item.value}%</span>
-                <span className="text-[10px] text-slate-400 block">RM {(item.amount / 1000).toFixed(1)}k</span>
+                <span className="text-slate-800 font-bold">{item.value}%</span>
+                <span className="text-[10px] text-slate-600 block">RM {(item.amount / 1000).toFixed(1)}k</span>
               </div>
             </div>
           );

@@ -42,18 +42,18 @@ export const DraftReminderModal: React.FC<DraftReminderModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in select-none">
-      <div className="glass-panel bg-slate-900/95 rounded-3xl max-w-xl w-full p-6 md:p-8 shadow-2xl border border-slate-800 relative">
-        <div className="flex justify-between items-start pb-4 border-b border-slate-800/80">
+      <div className="glass-panel bg-white/95 rounded-3xl max-w-xl w-full p-6 md:p-8 shadow-2xl border border-gray-200 relative">
+        <div className="flex justify-between items-start pb-4 border-b border-gray-200/80">
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 text-indigo-400 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 flex items-center justify-center">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-bold text-lg text-slate-100">AI Copilot Payment Reminder</h3>
-              <p className="text-xs text-slate-400">Drafted for {invoice.customerName} ({invoice.invoiceNumber})</p>
+              <h3 className="font-bold text-lg text-slate-800">AI Copilot Payment Reminder</h3>
+              <p className="text-xs text-slate-600">Drafted for {invoice.customerName} ({invoice.invoiceNumber})</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800 rounded-xl transition-colors">
+          <button onClick={onClose} className="p-2 text-slate-600 hover:text-slate-600 hover:bg-gray-50 rounded-xl transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -65,47 +65,47 @@ export const DraftReminderModal: React.FC<DraftReminderModalProps> = ({
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-300 mb-1">To:</label>
+            <label className="block text-xs font-bold text-slate-600 mb-1">To:</label>
             <input
               type="text"
               value={recipient}
               onChange={(e) => setRecipient(e.target.value)}
-              className="w-full bg-slate-950/70 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-100 focus:border-indigo-500 outline-none transition-colors"
+              className="w-full bg-white/70 border border-gray-200 rounded-xl p-2.5 text-xs text-slate-800 focus:border-emerald-500 outline-none transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-300 mb-1">Subject:</label>
+            <label className="block text-xs font-bold text-slate-600 mb-1">Subject:</label>
             <input
               type="text"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
-              className="w-full bg-slate-950/70 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-100 focus:border-indigo-500 outline-none transition-colors"
+              className="w-full bg-white/70 border border-gray-200 rounded-xl p-2.5 text-xs text-slate-800 focus:border-emerald-500 outline-none transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-300 mb-1">Message Body:</label>
+            <label className="block text-xs font-bold text-slate-600 mb-1">Message Body:</label>
             <textarea
               rows={8}
               value={body}
               onChange={(e) => setBody(e.target.value)}
-              className="w-full bg-slate-950/70 border border-slate-800 rounded-xl p-3 text-xs leading-relaxed text-slate-200 focus:border-indigo-500 outline-none font-mono transition-colors"
+              className="w-full bg-white/70 border border-gray-200 rounded-xl p-3 text-xs leading-relaxed text-slate-600 focus:border-emerald-500 outline-none font-mono transition-colors"
             />
           </div>
 
-          <div className="pt-3 border-t border-slate-800/80 flex justify-end gap-2">
+          <div className="pt-3 border-t border-gray-200/80 flex justify-end gap-2">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl transition-colors"
+              className="px-4 py-2 bg-gray-50 hover:bg-gray-100 text-slate-600 text-xs font-semibold rounded-xl transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSending}
-              className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:brightness-110 text-white text-xs font-semibold rounded-xl shadow-lg shadow-indigo-600/25 transition-all active:scale-98"
+              className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-emerald-600 to-emerald-600 hover:brightness-110 text-slate-900 text-xs font-semibold rounded-xl shadow-lg shadow-emerald-600/25 transition-all active:scale-98"
             >
               <Send className="w-3.5 h-3.5" />
               <span>{isSending ? 'Sending Reminder...' : 'Dispatch Reminder'}</span>
@@ -114,12 +114,12 @@ export const DraftReminderModal: React.FC<DraftReminderModalProps> = ({
         </form>
 
         {sentSuccess && (
-          <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-md rounded-3xl flex flex-col items-center justify-center animate-in zoom-in-95">
+          <div className="absolute inset-0 bg-white/95 backdrop-blur-md rounded-3xl flex flex-col items-center justify-center animate-in zoom-in-95">
             <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center justify-center mb-2">
               <Check className="w-6 h-6 stroke-[3]" />
             </div>
-            <h4 className="font-bold text-lg text-slate-100">Reminder Sent!</h4>
-            <p className="text-xs text-slate-400">Customer has been notified via email.</p>
+            <h4 className="font-bold text-lg text-slate-800">Reminder Sent!</h4>
+            <p className="text-xs text-slate-600">Customer has been notified via email.</p>
           </div>
         )}
       </div>

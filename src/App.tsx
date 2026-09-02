@@ -127,11 +127,11 @@ export function App() {
   const nextInvoiceNumber = `INV-2023-09${invoices.length + 1}`;
 
   return (
-    <div className="min-h-screen bg-[#020617] text-[#f8fafc] flex relative selection:bg-indigo-500/30 selection:text-indigo-200">
+    <div className="min-h-screen bg-[#f8f9ff] text-slate-900 flex relative selection:bg-emerald-500/30 selection:text-emerald-200">
       {/* Sleek subtle ambient background glow */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute -top-[20%] -left-[10%] w-[600px] h-[600px] rounded-full bg-indigo-600/10 blur-[130px]" />
-        <div className="absolute top-[30%] -right-[15%] w-[650px] h-[650px] rounded-full bg-purple-600/10 blur-[140px]" />
+        <div className="absolute -top-[20%] -left-[10%] w-[600px] h-[600px] rounded-full bg-emerald-600/10 blur-[130px]" />
+        <div className="absolute top-[30%] -right-[15%] w-[650px] h-[650px] rounded-full bg-emerald-600/10 blur-[140px]" />
         <div className="absolute -bottom-[20%] left-[20%] w-[500px] h-[500px] rounded-full bg-cyan-600/10 blur-[120px]" />
       </div>
 
@@ -283,8 +283,8 @@ export function App() {
 
       {/* Global Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900/90 backdrop-blur-xl text-slate-100 px-5 py-3 rounded-2xl shadow-2xl border border-indigo-500/40 flex items-center gap-3 z-50 animate-in slide-in-from-bottom-5 glow-indigo">
-          <span className="w-2.5 h-2.5 rounded-full bg-indigo-400 animate-pulse"></span>
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-xl text-slate-800 px-5 py-3 rounded-2xl shadow-2xl border border-emerald-500/40 flex items-center gap-3 z-50 animate-in slide-in-from-bottom-5 glow-indigo">
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
           <span className="text-xs md:text-sm font-medium">{toastMessage}</span>
         </div>
       )}

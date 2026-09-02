@@ -12,20 +12,20 @@ export const ReportsView: React.FC = () => {
     <div className="space-y-6 select-none">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="font-bold text-2xl md:text-3xl text-slate-100 tracking-tight">Financial Reports</h2>
-          <p className="text-xs md:text-sm text-slate-400 mt-1">GAAP and Malaysian Financial Reporting Standards (MFRS) compliant statements.</p>
+          <h2 className="font-bold text-2xl md:text-3xl text-slate-800 tracking-tight">Financial Reports</h2>
+          <p className="text-xs md:text-sm text-slate-600 mt-1">GAAP and Malaysian Financial Reporting Standards (MFRS) compliant statements.</p>
         </div>
         <div className="flex items-center gap-2.5">
           <button
             onClick={handlePrint}
-            className="flex items-center gap-2 px-3.5 py-2 glass-card bg-slate-900/80 border border-slate-800 rounded-xl hover:bg-slate-800 text-xs font-semibold text-slate-200 shadow-sm transition-all"
+            className="flex items-center gap-2 px-3.5 py-2 glass-card bg-white/80 border border-gray-200 rounded-xl hover:bg-gray-50 text-xs font-semibold text-slate-600 shadow-sm transition-all"
           >
-            <Printer className="w-4 h-4 text-indigo-400" />
+            <Printer className="w-4 h-4 text-emerald-400" />
             <span>Print Report</span>
           </button>
           <button
             onClick={() => alert("Report downloaded in PDF format.")}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:brightness-110 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/20 transition-all"
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-600 to-emerald-600 hover:brightness-110 text-slate-900 rounded-xl text-xs font-semibold shadow-lg shadow-emerald-600/20 transition-all"
           >
             <Download className="w-4 h-4" />
             <span>Export PDF</span>
@@ -34,11 +34,11 @@ export const ReportsView: React.FC = () => {
       </div>
 
       {/* Report Selector Pills */}
-      <div className="flex items-center gap-2 bg-slate-900/80 p-1.5 rounded-2xl border border-slate-800 w-fit">
+      <div className="flex items-center gap-2 bg-white/80 p-1.5 rounded-2xl border border-gray-200 w-fit">
         <button
           onClick={() => setReportType('pnl')}
           className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${
-            reportType === 'pnl' ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+            reportType === 'pnl' ? 'bg-gradient-to-r from-emerald-600 to-emerald-600 text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-600 hover:bg-gray-50'
           }`}
         >
           Profit & Loss Statement
@@ -46,7 +46,7 @@ export const ReportsView: React.FC = () => {
         <button
           onClick={() => setReportType('balance_sheet')}
           className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${
-            reportType === 'balance_sheet' ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+            reportType === 'balance_sheet' ? 'bg-gradient-to-r from-emerald-600 to-emerald-600 text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-600 hover:bg-gray-50'
           }`}
         >
           Balance Sheet
@@ -54,7 +54,7 @@ export const ReportsView: React.FC = () => {
         <button
           onClick={() => setReportType('cash_flow')}
           className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${
-            reportType === 'cash_flow' ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+            reportType === 'cash_flow' ? 'bg-gradient-to-r from-emerald-600 to-emerald-600 text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-600 hover:bg-gray-50'
           }`}
         >
           Cash Flow Statement
@@ -62,10 +62,10 @@ export const ReportsView: React.FC = () => {
       </div>
 
       {/* Report Sheet */}
-      <div className="glass-card bg-slate-900/70 rounded-3xl p-6 md:p-8 shadow-level-1 border border-slate-800/80 space-y-6 max-w-4xl">
-        <div className="text-center pb-6 border-b border-slate-800/80">
-          <h3 className="font-bold text-xl md:text-2xl text-slate-100">Aiman's Cafe Enterprise</h3>
-          <p className="text-xs text-slate-400">SSM: 202301045678 (1523412-V) • Bangsar, Kuala Lumpur</p>
+      <div className="glass-card bg-white/70 rounded-3xl p-6 md:p-8 shadow-level-1 border border-gray-200/80 space-y-6 max-w-4xl">
+        <div className="text-center pb-6 border-b border-gray-200/80">
+          <h3 className="font-bold text-xl md:text-2xl text-slate-800">Aiman's Cafe Enterprise</h3>
+          <p className="text-xs text-slate-600">SSM: 202301045678 (1523412-V) • Bangsar, Kuala Lumpur</p>
           <p className="font-semibold text-sm text-cyan-300 mt-2">
             {reportType === 'pnl' && 'Statement of Profit & Loss (For the period ended 30 June 2024)'}
             {reportType === 'balance_sheet' && 'Balance Sheet (As of 30 June 2024)'}
@@ -74,23 +74,23 @@ export const ReportsView: React.FC = () => {
         </div>
 
         {reportType === 'pnl' && (
-          <div className="space-y-4 text-xs md:text-sm text-slate-300">
+          <div className="space-y-4 text-xs md:text-sm text-slate-600">
             <div>
-              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-400 mb-2">Revenue</h4>
+              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-600 mb-2">Revenue</h4>
               <div className="space-y-1.5 pl-3 border-l-2 border-emerald-500">
                 <div className="flex justify-between py-1">
                   <span>Cafe Sales & Dining Receipts</span>
-                  <span className="font-semibold text-slate-100">RM 78,430.00</span>
+                  <span className="font-semibold text-slate-800">RM 78,430.00</span>
                 </div>
                 <div className="flex justify-between py-1">
                   <span>Corporate Catering & Events</span>
-                  <span className="font-semibold text-slate-100">RM 32,000.00</span>
+                  <span className="font-semibold text-slate-800">RM 32,000.00</span>
                 </div>
                 <div className="flex justify-between py-1">
                   <span>Wholesale Specialty Beans</span>
-                  <span className="font-semibold text-slate-100">RM 18,000.00</span>
+                  <span className="font-semibold text-slate-800">RM 18,000.00</span>
                 </div>
-                <div className="flex justify-between py-2 border-t border-slate-800 font-bold text-emerald-400">
+                <div className="flex justify-between py-2 border-t border-gray-200 font-bold text-emerald-400">
                   <span>Total Operating Revenue</span>
                   <span>RM 128,430.00</span>
                 </div>
@@ -98,7 +98,7 @@ export const ReportsView: React.FC = () => {
             </div>
 
             <div>
-              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-400 mb-2">Cost of Goods Sold (COGS)</h4>
+              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-600 mb-2">Cost of Goods Sold (COGS)</h4>
               <div className="space-y-1.5 pl-3 border-l-2 border-rose-500">
                 <div className="flex justify-between py-1">
                   <span>Green Coffee Beans & Dairy Raw Materials</span>
@@ -108,20 +108,20 @@ export const ReportsView: React.FC = () => {
                   <span>Packaging & Cold Brew Cans</span>
                   <span>RM 2,800.00</span>
                 </div>
-                <div className="flex justify-between py-2 border-t border-slate-800 font-bold text-rose-400">
+                <div className="flex justify-between py-2 border-t border-gray-200 font-bold text-rose-400">
                   <span>Total COGS</span>
                   <span>RM 16,442.00</span>
                 </div>
               </div>
             </div>
 
-            <div className="p-3.5 bg-slate-950/60 border border-slate-800 rounded-xl flex justify-between font-bold text-sm text-slate-100">
+            <div className="p-3.5 bg-white/60 border border-gray-200 rounded-xl flex justify-between font-bold text-sm text-slate-800">
               <span>Gross Profit (Margin: 87.2%)</span>
               <span className="text-emerald-400">RM 111,988.00</span>
             </div>
 
             <div>
-              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-400 mb-2">Operating Expenses</h4>
+              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-600 mb-2">Operating Expenses</h4>
               <div className="space-y-1.5 pl-3 border-l-2 border-slate-600">
                 <div className="flex justify-between py-1">
                   <span>Salaries & Barista Payroll</span>
@@ -139,7 +139,7 @@ export const ReportsView: React.FC = () => {
                   <span>Utilities (Electricity TNB & Maxis Broadband)</span>
                   <span>RM 3,411.00</span>
                 </div>
-                <div className="flex justify-between py-2 border-t border-slate-800 font-bold text-rose-400">
+                <div className="flex justify-between py-2 border-t border-gray-200 font-bold text-rose-400">
                   <span>Total Operating Expenses</span>
                   <span>RM 51,768.00</span>
                 </div>
@@ -154,9 +154,9 @@ export const ReportsView: React.FC = () => {
         )}
 
         {reportType === 'balance_sheet' && (
-          <div className="space-y-4 text-xs md:text-sm text-slate-300">
+          <div className="space-y-4 text-xs md:text-sm text-slate-600">
             <div>
-              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-400 mb-2">Current & Fixed Assets</h4>
+              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-600 mb-2">Current & Fixed Assets</h4>
               <div className="space-y-1.5 pl-3 border-l-2 border-emerald-500">
                 <div className="flex justify-between py-1">
                   <span>Maybank Premier Operating Account</span>
@@ -174,7 +174,7 @@ export const ReportsView: React.FC = () => {
                   <span>Commercial Espresso Machines & Equipment</span>
                   <span>RM 85,000.00</span>
                 </div>
-                <div className="flex justify-between py-2 border-t border-slate-800 font-bold text-emerald-400">
+                <div className="flex justify-between py-2 border-t border-gray-200 font-bold text-emerald-400">
                   <span>Total Assets</span>
                   <span>RM 153,400.00</span>
                 </div>
@@ -182,7 +182,7 @@ export const ReportsView: React.FC = () => {
             </div>
 
             <div>
-              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-400 mb-2">Liabilities & Equity</h4>
+              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-600 mb-2">Liabilities & Equity</h4>
               <div className="space-y-1.5 pl-3 border-l-2 border-rose-500">
                 <div className="flex justify-between py-1">
                   <span>Net SST Payable (Royal Customs)</span>
@@ -192,11 +192,11 @@ export const ReportsView: React.FC = () => {
                   <span>Accounts Payable (Coffee Bean Suppliers)</span>
                   <span>RM 4,500.00</span>
                 </div>
-                <div className="flex justify-between py-1 font-semibold text-slate-200">
+                <div className="flex justify-between py-1 font-semibold text-slate-600">
                   <span>Owner's Equity & Retained Earnings</span>
                   <span>RM 127,300.00</span>
                 </div>
-                <div className="flex justify-between py-2 border-t border-slate-800 font-bold text-slate-100">
+                <div className="flex justify-between py-2 border-t border-gray-200 font-bold text-slate-800">
                   <span>Total Liabilities & Equity</span>
                   <span>RM 153,400.00</span>
                 </div>
@@ -206,8 +206,8 @@ export const ReportsView: React.FC = () => {
         )}
 
         {reportType === 'cash_flow' && (
-          <div className="space-y-4 text-xs md:text-sm text-slate-300">
-            <div className="p-3.5 bg-slate-950/60 border border-slate-800 rounded-xl flex justify-between font-semibold text-slate-200">
+          <div className="space-y-4 text-xs md:text-sm text-slate-600">
+            <div className="p-3.5 bg-white/60 border border-gray-200 rounded-xl flex justify-between font-semibold text-slate-600">
               <span>Beginning Cash Balance (1 Jan 2024)</span>
               <span>RM 28,400.00</span>
             </div>

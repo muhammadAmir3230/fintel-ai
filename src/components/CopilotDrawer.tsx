@@ -210,36 +210,36 @@ const handleSendMessage = async (textToSend?: string) => {
   return (
     <aside
       id="copilot-drawer"
-      className={`fixed right-0 top-0 h-screen bg-slate-900/95 backdrop-blur-2xl shadow-2xl border-l border-slate-800 text-slate-100 flex flex-col z-50 transition-all duration-300 ${
+      className={`fixed right-0 top-0 h-screen bg-white/95 backdrop-blur-2xl shadow-2xl border-l border-gray-200 text-slate-800 flex flex-col z-50 transition-all duration-300 ${
         isExpanded ? 'w-[480px]' : 'w-[320px] md:w-[340px]'
       }`}
     >
       {/* Header */}
-      <div className="p-4 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
+      <div className="p-4 bg-white/90 border-b border-gray-200 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white flex items-center justify-center shadow-md copilot-active">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-600 text-slate-900 flex items-center justify-center shadow-md copilot-active">
             <Bot className="w-4 h-4" />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <h3 className="font-bold text-sm text-slate-100">Fintel Copilot</h3>
+              <h3 className="font-bold text-sm text-slate-800">Fintel Copilot</h3>
               <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
             </div>
-            <p className="text-[11px] text-indigo-400 font-medium">AI Financial Assistant Active</p>
+            <p className="text-[11px] text-emerald-400 font-medium">AI Financial Assistant Active</p>
           </div>
         </div>
 
         <div className="flex items-center gap-1">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="p-1.5 text-slate-400 hover:text-indigo-400 hover:bg-slate-800 rounded-lg transition-colors"
+            className="p-1.5 text-slate-600 hover:text-emerald-400 hover:bg-gray-50 rounded-lg transition-colors"
             title={isExpanded ? 'Collapse width' : 'Expand width'}
           >
             {isExpanded ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
           </button>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-slate-800 rounded-lg transition-colors"
+            className="p-1.5 text-slate-600 hover:text-rose-400 hover:bg-gray-50 rounded-lg transition-colors"
             title="Close Copilot"
           >
             <X className="w-4 h-4" />
@@ -248,7 +248,7 @@ const handleSendMessage = async (textToSend?: string) => {
       </div>
 
       {/* Messages Scroll Area */}
-      <div className="flex-1 p-4 overflow-y-auto chat-scroll flex flex-col gap-4 bg-slate-950/60">
+      <div className="flex-1 p-4 overflow-y-auto chat-scroll flex flex-col gap-4 bg-white/60">
         {messages.map((msg) => {
           const isAi = msg.sender === 'ai';
           return (
@@ -258,15 +258,15 @@ const handleSendMessage = async (textToSend?: string) => {
             >
               <div className={`flex gap-2.5 max-w-[92%] ${isAi ? 'flex-row' : 'flex-row-reverse'}`}>
                 {isAi && (
-                  <div className="w-7 h-7 rounded-lg bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 flex-shrink-0 flex items-center justify-center mt-1">
+                  <div className="w-7 h-7 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 flex-shrink-0 flex items-center justify-center mt-1">
                     <Sparkles className="w-3.5 h-3.5" />
                   </div>
                 )}
                 <div
                   className={`p-3 rounded-2xl text-xs md:text-[13px] leading-relaxed shadow-sm ${
                     isAi
-                      ? 'bg-slate-900/90 text-slate-200 border border-slate-800 rounded-tl-xs whitespace-pre-line'
-                      : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-tr-xs shadow-md'
+                      ? 'bg-white/90 text-slate-600 border border-gray-200 rounded-tl-xs whitespace-pre-line'
+                      : 'bg-gradient-to-r from-emerald-600 to-emerald-600 text-slate-900 rounded-tr-xs shadow-md'
                   }`}
                 >
                   {msg.text}
@@ -280,10 +280,10 @@ const handleSendMessage = async (textToSend?: string) => {
                     <button
                       key={action.actionId}
                       onClick={() => handleActionClick(action.actionId)}
-                      className="text-left bg-slate-900/90 border border-slate-800 hover:border-indigo-500/50 hover:bg-slate-800/80 text-slate-200 text-xs px-3 py-2 rounded-xl shadow-sm transition-all flex items-center justify-between group active:scale-[0.99]"
+                      className="text-left bg-white/90 border border-gray-200 hover:border-emerald-500/50 hover:bg-gray-50/80 text-slate-600 text-xs px-3 py-2 rounded-xl shadow-sm transition-all flex items-center justify-between group active:scale-[0.99]"
                     >
                       <span className="font-medium">{action.label}</span>
-                      <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-indigo-400 group-hover:translate-x-0.5 transition-all" />
+                      <ArrowRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-emerald-400 group-hover:translate-x-0.5 transition-all" />
                     </button>
                   ))}
                 </div>
@@ -293,11 +293,11 @@ const handleSendMessage = async (textToSend?: string) => {
         })}
 
         {isTyping && (
-          <div className="flex items-center gap-2 pl-2 text-xs text-slate-400">
-            <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce"></div>
-            <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
-            <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce [animation-delay:0.4s]"></div>
-            <span className="text-[11px] font-medium ml-1 text-slate-400">Fintel Copilot is typing...</span>
+          <div className="flex items-center gap-2 pl-2 text-xs text-slate-600">
+            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce"></div>
+            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+            <span className="text-[11px] font-medium ml-1 text-slate-600">Fintel Copilot is typing...</span>
           </div>
         )}
 
@@ -305,23 +305,23 @@ const handleSendMessage = async (textToSend?: string) => {
       </div>
 
       {/* Suggested Quick Prompt Chips */}
-      <div className="px-3 pt-2 pb-1 border-t border-slate-800 bg-slate-900/90">
+      <div className="px-3 pt-2 pb-1 border-t border-gray-200 bg-white/90">
         <div className="flex items-center gap-1.5 overflow-x-auto py-1 no-scrollbar text-[11px]">
           <button
             onClick={() => handleSendMessage('Summarize my finances')}
-            className="whitespace-nowrap px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-indigo-600/20 hover:border-indigo-500/40 border border-slate-700/50 text-slate-300 hover:text-indigo-300 font-medium transition-colors"
+            className="whitespace-nowrap px-2.5 py-1 rounded-lg bg-gray-50/80 hover:bg-emerald-600/20 hover:border-emerald-500/40 border border-gray-200/50 text-slate-600 hover:text-emerald-300 font-medium transition-colors"
           >
             📊 Summarize finances
           </button>
           <button
             onClick={() => handleSendMessage('Do I have enough cash to restock?')}
-            className="whitespace-nowrap px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-indigo-600/20 hover:border-indigo-500/40 border border-slate-700/50 text-slate-300 hover:text-indigo-300 font-medium transition-colors"
+            className="whitespace-nowrap px-2.5 py-1 rounded-lg bg-gray-50/80 hover:bg-emerald-600/20 hover:border-emerald-500/40 border border-gray-200/50 text-slate-600 hover:text-emerald-300 font-medium transition-colors"
           >
             💰 Cash to restock?
           </button>
           <button
             onClick={() => handleSendMessage('Estimate next month profit')}
-            className="whitespace-nowrap px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-indigo-600/20 hover:border-indigo-500/40 border border-slate-700/50 text-slate-300 hover:text-indigo-300 font-medium transition-colors"
+            className="whitespace-nowrap px-2.5 py-1 rounded-lg bg-gray-50/80 hover:bg-emerald-600/20 hover:border-emerald-500/40 border border-gray-200/50 text-slate-600 hover:text-emerald-300 font-medium transition-colors"
           >
             📈 Forecast profit
           </button>
@@ -329,7 +329,7 @@ const handleSendMessage = async (textToSend?: string) => {
       </div>
 
       {/* Chat Input */}
-      <div className="p-3 border-t border-slate-800 bg-slate-900/95">
+      <div className="p-3 border-t border-gray-200 bg-white/95">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -343,12 +343,12 @@ const handleSendMessage = async (textToSend?: string) => {
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             placeholder="Ask Fintel Copilot..."
-            className="w-full bg-slate-950/80 border border-slate-800 rounded-full py-2.5 pl-4 pr-11 text-xs md:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
+            className="w-full bg-white/80 border border-gray-200 rounded-full py-2.5 pl-4 pr-11 text-xs md:text-sm text-slate-800 placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
           />
           <button
             type="submit"
             disabled={!inputText.trim()}
-            className="absolute right-1.5 w-8 h-8 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 disabled:from-slate-800 disabled:to-slate-800 disabled:text-slate-600 text-white flex items-center justify-center hover:brightness-110 transition-all shadow-sm active:scale-95"
+            className="absolute right-1.5 w-8 h-8 rounded-full bg-gradient-to-r from-emerald-600 to-emerald-600 disabled:from-gray-50 disabled:to-gray-100 disabled:text-slate-600 text-slate-900 flex items-center justify-center hover:brightness-110 transition-all shadow-sm active:scale-95"
           >
             <Send className="w-4 h-4" />
           </button>

@@ -35,7 +35,7 @@ export const Login: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-[#f8f9ff] px-4">
       <div className="w-full max-w-sm bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
         <div className="flex items-center gap-2 mb-1">
-          <div className="w-9 h-9 rounded-lg bg-[#10B981] flex items-center justify-center text-white font-bold">F</div>
+          <div className="w-9 h-9 rounded-lg bg-[#10B981] flex items-center justify-center text-slate-900 font-bold">F</div>
           <span className="text-xl font-bold text-[#0b1c30]">Fintel</span>
         </div>
         <p className="text-sm text-gray-500 mb-6">Your AI finance assistant.</p>
@@ -75,7 +75,7 @@ export const Login: React.FC = () => {
           <button
             type="submit"
             disabled={busy}
-            className="w-full py-2.5 rounded-lg bg-[#10B981] text-white font-semibold hover:bg-[#0e9f6e] disabled:opacity-60"
+            className="w-full py-2.5 rounded-lg bg-[#10B981] text-slate-900 font-semibold hover:bg-[#0e9f6e] disabled:opacity-60"
           >
             {busy ? 'Please wait…' : mode === 'signin' ? 'Sign in' : 'Sign up'}
           </button>
