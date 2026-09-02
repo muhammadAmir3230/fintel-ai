@@ -10,7 +10,7 @@ export const initialBusinessProfile: BusinessProfile = {
   ownerName: "Aiman",
   currency: "RM",
   avatarUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuAhlJNTqCRRgvValTSyGPU20TVKz1ymkhWkKUdx8EzQu84NVr2Q-MpWJObGMWUOjmt6Z_WTOQysmqMtdzxuf12zWkb2K_7FjL5wmnN-foAxvupSfTJtX6vKNUKrnVU13OheRnYNO4Jo61azCol91dy3wpJSnKYLkLipNlBpGxICRQKAqPmuY1fpN0snphfdY4SPKdLC27cPnW-ahCtkxVkmnLTCY6pbfswvbN2kReEZhHA6r5VTpbGw",
-  logoUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuB5goTCkGSy16wLKaoo3oU_ifPfmDJWgcFW3WpVipoet4RLykCmO97m-EfKDg1rGyB_QNkTIbm6Qn-U_zOdxrdpegR2WQiDLDVyc3AeMsE-Pi0Q8HyUGDut_Jv86Po7yNL3CgFHmUtcjcbQRMIrKjE3TOdduXEoySkkxufOunkgWGpFGOEBlqoWq4lHo3sY5wl7lucKy3jHI2vXI9qnkXQNT_HDkBRnr4tmCEIcVjgeCjhHL4c1xpV7"
+  logoUrl: "https://ehtqpdybwjymwxrzrlwi.supabase.co/storage/v1/object/public/assets/fintel_logo.png",
 };
 
 export const initialChecklist: ChecklistItem[] = [
