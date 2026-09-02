@@ -4,13 +4,13 @@
   :root {
     --font-headline: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    color-scheme: dark;
+    color-scheme: light;
   }
 
   body {
     font-family: var(--font-body);
-    color: #f8fafc;
-    background-color: #020617;
+    color: #0b1c30;
+    background-color: #f8f9ff;
     overflow-x: hidden;
   }
 
@@ -19,41 +19,41 @@
   }
 }
 
-/* Glassmorphism and Sleek theme utilities */
+/* Light "glass" / card utilities */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.65);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(51, 65, 85, 0.5);
+  border: 1px solid #e5e7eb;
 }
 
 .glass-card {
-  background: rgba(15, 23, 42, 0.6);
+  background: #ffffff;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(51, 65, 85, 0.45);
+  border: 1px solid #eef2f7;
 }
 
 .glass-input {
-  background: rgba(2, 6, 23, 0.6);
-  border: 1px solid rgba(51, 65, 85, 0.7);
-  color: #f8fafc;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  color: #0b1c30;
 }
 .glass-input:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+  border-color: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
 }
 
 .shadow-level-1 {
-  box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.35);
+  box-shadow: 0px 4px 20px rgba(15, 42, 67, 0.08);
 }
 
 .shadow-level-2 {
-  box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 10px 30px rgba(15, 42, 67, 0.12);
 }
 
 .glow-indigo {
-  box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.35);
+  box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.30);
 }
 
 .glow-emerald {
@@ -64,7 +64,7 @@
   width: 60px;
   height: 20px;
   background: linear-gradient(90deg, rgba(16, 185, 129, 0) 0%, rgba(16, 185, 129, 0.3) 100%);
-  border-bottom: 2px solid #34d399;
+  border-bottom: 2px solid #10b981;
   border-radius: 4px;
 }
 
@@ -76,7 +76,7 @@
   border-radius: 4px;
 }
 
-/* Custom Scrollbar for Sleek Interface */
+/* Light scrollbar */
 .chat-scroll::-webkit-scrollbar,
 ::-webkit-scrollbar {
   width: 6px;
@@ -84,29 +84,28 @@
 }
 .chat-scroll::-webkit-scrollbar-track,
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.4);
+  background: rgba(226, 232, 240, 0.6);
 }
 .chat-scroll::-webkit-scrollbar-thumb,
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(51, 65, 85, 0.6);
+  background-color: rgba(148, 163, 184, 0.6);
   border-radius: 9999px;
 }
 .chat-scroll::-webkit-scrollbar-thumb:hover,
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(99, 102, 241, 0.5);
+  background-color: rgba(16, 185, 129, 0.5);
 }
 
 @keyframes pulseGlow {
-  0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.5); }
-  70% { box-shadow: 0 0 0 8px rgba(99, 102, 241, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+  70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
 }
 
 .copilot-active {
   animation: pulseGlow 2.5s infinite;
 }
 
-/* Hide scrollbar utility */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -114,4 +113,3 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
