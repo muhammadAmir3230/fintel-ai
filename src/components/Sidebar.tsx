@@ -17,6 +17,7 @@ import {
   Building2
 } from 'lucide-react';
 import { TabType, BusinessProfile } from '../types';
+import { supabase } from '../lib/supabase';
 
 interface SidebarProps {
   currentTab: TabType;
@@ -149,6 +150,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
         >
           <Settings className="w-5 h-5 text-slate-600" />
           <span>Settings</span>
+        </button>
+                <button
+          onClick={() => supabase.auth.signOut()}
+          className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:text-red-600 hover:bg-red-50 transition-all text-left"
+        >
+          <LogOut className="w-5 h-5" />
+          <span>Sign out</span>
         </button>
       </div>
     </aside>

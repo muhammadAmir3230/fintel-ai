@@ -29,15 +29,5 @@ export const AuthGate: React.FC = () => {
 
   if (!session) return <Login />;
 
-  return (
-    <>
-      <App />
-      <button
-        onClick={() => supabase.auth.signOut()}
-        className="fixed bottom-4 left-4 z-50 text-xs px-3 py-1.5 rounded-full bg-white border border-gray-200 shadow text-gray-600 hover:bg-gray-50"
-      >
-        Sign out
-      </button>
-    </>
-  );
+  return <App />;
 };
