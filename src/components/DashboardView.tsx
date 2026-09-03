@@ -134,7 +134,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           </div>
           <div className="mt-3">
             <div className="font-bold text-2xl md:text-3xl text-slate-800 tracking-tight">
-              RM 128,430
+            {money(totalRevenue)}
             </div>
             <div className="flex items-center gap-1.5 mt-1.5 text-xs text-emerald-400 font-semibold">
               <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
