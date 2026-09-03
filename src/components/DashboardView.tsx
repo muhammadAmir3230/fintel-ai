@@ -48,6 +48,16 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 }) => {
   const completedCount = checklist.filter((item) => item.completed).length;
   const progressPercent = Math.round((completedCount / checklist.length) * 100);
+  const money = (n: number) => 'RM ' + n.toLocaleString('en-MY', { maximumFractionDigits: 0 });
+  const paidInvoices = invoices.filter((i) => i.status === 'paid').reduce((s, i) => s + i.amount, 0);
+  const inflow = transactions.filter((t) => t.type === 'inflow').reduce((s, t) => s + t.amount, 0);
+  const outflow = transactions.filter((t) => t.type === 'outflow').reduce((s, t) => s + t.amount, 0);
+  const totalRevenue = paidInvoices + inflow;
+  const totalExpenses = outflow;
+  const netProfit = totalRevenue - totalExpenses;
+  const cashBalance = totalRevenue - totalExpenses;
+  const overdueInvoices = invoices.filter((i) => i.status === 'overdue');
+  const overdueTotal = overdueInvoices.reduce((s, i) => s + i.amount, 0);
 
   return (
     <div className="space-y-6 select-none">
@@ -147,7 +157,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           </div>
           <div className="mt-3">
             <div className="font-bold text-2xl md:text-3xl text-slate-800 tracking-tight">
-              RM 68,210
+              {money(totalExpenses)}
             </div>
             <div className="flex items-center gap-1.5 mt-1.5 text-xs text-rose-400 font-semibold">
               <TrendingUp className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -170,7 +180,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           </div>
           <div className="mt-3">
             <div className="font-bold text-2xl md:text-3xl bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-slate-900 tracking-tight">
-              RM 60,220
+              {money(netProfit)}
             </div>
             <div className="flex items-center gap-1.5 mt-1.5 text-xs text-emerald-400 font-semibold">
               <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -193,7 +203,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           </div>
           <div className="mt-3">
             <div className="font-bold text-2xl md:text-3xl text-slate-800 tracking-tight">
-              RM 45,600
+              {money(cashBalance)}
             </div>
             <div className="flex items-center gap-1.5 mt-1.5 text-xs text-emerald-400 font-semibold">
               <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -274,7 +284,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <h4 className="font-bold text-xs md:text-sm text-slate-600 group-hover:text-rose-300">3 Overdue Invoices (RM 5,600)</h4>
+                    <h4 className="font-bold text-xs md:text-sm text-slate-600 group-hover:text-rose-300">{overdueInvoices.length} Overdue Invoices ({money(overdueTotal)})</h4>
                     <span className="text-[11px] text-rose-400 font-semibold flex items-center gap-0.5">
                       Review <ChevronRight className="w-3 h-3" />
                     </span>
