@@ -203,6 +203,8 @@ export function App() {
         onClose={() => setCopilotOpen(false)}
         currentTab={currentTab}
         invoices={invoices}
+        transactions={transactions}
+        businessProfile={businessProfile}
         onNavigateTab={setCurrentTab}
         onOpenDraftReminder={handleOpenDraftReminder}
         onOpenSSTFiling={() => setIsSSTFilingOpen(true)}

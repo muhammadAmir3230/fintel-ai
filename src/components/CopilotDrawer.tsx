@@ -14,7 +14,7 @@ import {
   RotateCcw,
   ExternalLink
 } from 'lucide-react';
-import { CopilotMessage, TabType, Invoice } from '../types';
+import { CopilotMessage, TabType, Invoice, Transaction, BusinessProfile } from '../types';
 
 interface CopilotDrawerProps {
   isOpen: boolean;
@@ -24,6 +24,8 @@ interface CopilotDrawerProps {
   onNavigateTab: (tab: TabType) => void;
   onOpenDraftReminder: (invoiceId: string) => void;
   onOpenSSTFiling: () => void;
+  transactions: Transaction[];
+  businessProfile: BusinessProfile;
 }
 
 export const CopilotDrawer: React.FC<CopilotDrawerProps> = ({
@@ -33,13 +35,15 @@ export const CopilotDrawer: React.FC<CopilotDrawerProps> = ({
   invoices,
   onNavigateTab,
   onOpenDraftReminder,
-  onOpenSSTFiling
+  onOpenSSTFiling,
+  transactions,
+  businessProfile
 }) => {
   const [messages, setMessages] = useState<CopilotMessage[]>([
     {
       id: 'm-1',
       sender: 'ai',
-      text: "Hi Aiman! I'm your AI finance copilot. How can I help you grow your business today?",
+      text: `Hi ${businessProfile.ownerName || 'there'}! I'm your AI finance copilot. How can I help you grow your business today?`,
       timestamp: 'Just now',
     }
   ]);
@@ -48,7 +52,7 @@ export const CopilotDrawer: React.FC<CopilotDrawerProps> = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Update contextual greetings/prompts based on current tab
+  // Update contextual greetings/prompts based on current tab   
   useEffect(() => {
     if (currentTab === 'tax') {
       setMessages((prev) => {
@@ -107,8 +111,24 @@ export const CopilotDrawer: React.FC<CopilotDrawerProps> = ({
   }, [currentTab]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isTyping]);
+    const overdue = invoices.filter((i) => i.status === 'overdue');
+    if (currentTab === 'invoices' && overdue.length > 0) {
+      setMessages((prev) => {
+        if (prev.some((m) => m.id === 'm-inv-init')) return prev;
+        const total = overdue.reduce((s, i) => s + (i.amount || 0), 0);
+        return [...prev, {
+          id: 'm-inv-init',
+          sender: 'ai',
+          text: `You have ${overdue.length} overdue invoice(s) totaling RM ${total.toLocaleString('en-MY', { maximumFractionDigits: 0 })}. Want me to draft polite payment reminders?`,
+          timestamp: 'Just now',
+          suggestedActions: [
+            { label: 'Draft payment reminders', actionId: 'draft_reminders' },
+            { label: 'View overdue report', actionId: 'overdue_report' },
+          ],
+        }];
+      });
+    }
+  }, [currentTab, invoices]);
 
 const handleSendMessage = async (textToSend?: string) => {
   const query = textToSend || inputText.trim();
@@ -126,18 +146,24 @@ const handleSendMessage = async (textToSend?: string) => {
 
   const unpaid = invoices.filter((i) => i.status !== 'paid');
   const overdue = invoices.filter((i) => i.status === 'overdue');
+  const paid = invoices.filter((i) => i.status === 'paid').reduce((s, i) => s + (i.amount || 0), 0);
+  const inflow = transactions.filter((t) => t.type === 'inflow').reduce((s, t) => s + (t.amount || 0), 0);
+  const outflow = transactions.filter((t) => t.type === 'outflow').reduce((s, t) => s + (t.amount || 0), 0);
+  const revenue = paid + inflow;
+  const expenses = outflow;
   const finance = {
-    business: "Aiman's Cafe",
+    business: businessProfile.name,
+    owner: businessProfile.ownerName,
     currency: 'RM',
-    sstRate: '6% (services)',
+    sstRate: (businessProfile.defaultTaxRate ?? 6) + '% (services)',
     totalInvoices: invoices.length,
     outstandingReceivables: unpaid.reduce((s, i) => s + (i.amount || 0), 0),
     overdueCount: overdue.length,
     overdueAmount: overdue.reduce((s, i) => s + (i.amount || 0), 0),
-    revenue: 128430,
-    expenses: 68210,
-    netProfit: 60220,
-    cashBalance: 45600,
+    revenue,
+    expenses,
+    netProfit: revenue - expenses,
+    cashBalance: revenue - expenses,
   };
 
   try {
