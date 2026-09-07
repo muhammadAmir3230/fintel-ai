@@ -181,7 +181,9 @@ export function App() {
                 onDeleteInvoice={handleDeleteInvoice}
               />
             )}
-            {currentTab === 'tax' && <TaxView onOpenSSTFiling={() => setIsSSTFilingOpen(true)} filings={filings} />}
+            {currentTab === 'tax' && (
+              <TaxView invoices={invoices} transactions={transactions} onOpenSSTFiling={() => setIsSSTFilingOpen(true)} />
+            )}            
             {currentTab === 'expenses' && (
               <ExpensesView transactions={transactions} onOpenReceiptScan={() => setIsReceiptScanOpen(true)} onAddExpense={() => setCurrentTab('transactions')} />
             )}
@@ -190,7 +192,11 @@ export function App() {
               <CustomersView invoices={invoices} onOpenNewInvoice={() => setIsNewInvoiceOpen(true)} />
             )}
             {currentTab === 'suppliers' && <SuppliersView />}
-            {currentTab === 'reports' && <ReportsView />}
+
+            {currentTab === 'reports' && (
+              <ReportsView invoices={invoices} transactions={transactions} businessProfile={businessProfile} />
+            )}
+            
             {currentTab === 'settings' && (
               <SettingsView businessProfile={businessProfile} onSaveProfile={handleSaveProfile} />
             )}

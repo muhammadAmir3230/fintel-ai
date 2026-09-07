@@ -113,3 +113,13 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+@media print {
+  body * { visibility: hidden; }
+  #report-print-area, #report-print-area * { visibility: visible; }
+  #report-print-area {
+    position: absolute; left: 0; top: 0; width: 100%;
+    box-shadow: none; border: none;
+  }
+  .no-print { display: none !important; }
+}
