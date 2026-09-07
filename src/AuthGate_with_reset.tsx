@@ -1,3 +1,6 @@
+// TARGET: src/AuthGate.tsx  (REPLACE the whole file)
+// Detects the password-recovery link and shows the reset screen.
+
 import React, { useEffect, useState } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from './lib/supabase';
@@ -10,11 +13,7 @@ export const AuthGate: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [recovering, setRecovering] = useState(false);
 
-    useEffect(() => {
-    // Catch the recovery link even if the event fires early
-    const url = window.location.hash + window.location.search;
-    if (url.includes('type=recovery')) setRecovering(true);
-
+  useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
       setLoading(false);
@@ -26,7 +25,7 @@ export const AuthGate: React.FC = () => {
     return () => sub.subscription.unsubscribe();
   }, []);
 
-    if (loading) {
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#f8f9ff] text-gray-500">
         Loading…
@@ -36,6 +35,5 @@ export const AuthGate: React.FC = () => {
 
   if (recovering) return <ResetPassword onDone={() => setRecovering(false)} />;
   if (!session) return <Login />;
-
   return <App />;
 };

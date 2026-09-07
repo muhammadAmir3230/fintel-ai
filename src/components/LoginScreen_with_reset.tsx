@@ -1,3 +1,6 @@
+// TARGET: src/components/LoginScreen.tsx  (REPLACE the whole file)
+// Adds a "Forgot password?" flow that emails a reset link.
+
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabase';
 
