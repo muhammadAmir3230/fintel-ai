@@ -59,6 +59,35 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const overdueInvoices = invoices.filter((i) => i.status === 'overdue');
   const overdueTotal = overdueInvoices.reduce((s, i) => s + i.amount, 0);
 
+    // ---- chart data from real transactions/invoices ----
+  const _now = new Date();
+  const _months = Array.from({ length: 6 }, (_, i) => {
+    const dt = new Date(_now.getFullYear(), _now.getMonth() - (5 - i), 1);
+    return { key: dt.toLocaleString('en-US', { month: 'short' }), income: 0, expenses: 0 };
+  });
+  const _idx = (d: Date) => 5 - ((_now.getFullYear() - d.getFullYear()) * 12 + (_now.getMonth() - d.getMonth()));
+  transactions.forEach((t) => {
+    const d = new Date(t.date); if (isNaN(d.getTime())) return;
+    const i = _idx(d); if (i < 0 || i > 5) return;
+    if (t.type === 'inflow') _months[i].income += t.amount; else _months[i].expenses += t.amount;
+  });
+  invoices.filter((i) => i.status === 'paid').forEach((inv) => {
+    const d = new Date(inv.date); if (isNaN(d.getTime())) return;
+    const i = _idx(d); if (i < 0 || i > 5) return;
+    _months[i].income += inv.amount;
+  });
+  const monthly = _months.map((m) => ({ month: m.key, income: m.income, expenses: m.expenses }));
+
+  const _palette = ['#10b981', '#2563eb', '#a855f7', '#f43f5e', '#38bdf8', '#f59e0b'];
+  const _catMap: Record<string, number> = {};
+  transactions.filter((t) => t.type === 'outflow').forEach((t) => { _catMap[t.category] = (_catMap[t.category] || 0) + t.amount; });
+  const _catEntries = Object.entries(_catMap).sort((a, b) => b[1] - a[1]);
+  const _catTotal = _catEntries.reduce((s, [, v]) => s + v, 0);
+  const expenseData = _catEntries.map(([name, amount], i) => ({
+    name, amount, value: _catTotal ? Math.round((amount / _catTotal) * 100) : 0, color: _palette[i % _palette.length],
+  }));
+
+
   return (
     <div className="space-y-6 select-none">
       {/* Quick Action Pills Row */}
@@ -234,7 +263,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </button>
           </div>
           <div className="flex-1 w-full relative">
-            <IncomeVsExpensesChart />
+            <IncomeVsExpensesChart data={monthly} />
           </div>
         </div>
 
@@ -253,7 +282,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </button>
           </div>
           <div className="flex-1 w-full relative flex items-center justify-center">
-            <ExpenseBreakdownDonut />
+            <ExpenseBreakdownDonut data={expenseData} total={totalExpenses} />
           </div>
         </div>
       </section>
@@ -305,13 +334,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <h4 className="font-bold text-xs md:text-sm text-slate-600 group-hover:text-emerald-300">SST Submission Due in 15 days</h4>
+                    <h4 className="font-bold text-xs md:text-sm text-slate-600 group-hover:text-emerald-300">Keep your SST records up to date</h4>
                     <span className="text-[11px] text-emerald-400 font-semibold flex items-center gap-0.5">
                       Draft SST-02 <ChevronRight className="w-3 h-3" />
                     </span>
                   </div>
                   <p className="text-xs text-slate-600 mt-0.5">
-                    Review preliminary Q2 report (Net SST Due: RM 21,600).
+                    Review your SST once your sales and expenses are in.
                   </p>
                 </div>
               </li>

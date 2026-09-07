@@ -34,16 +34,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onOpenNewInvoice,
   onOpenOnboarding
 }) => {
-  const navItems = [
+  const navItems: { id: TabType; label: string; icon: any; badge?: string }[] = [
     { id: 'dashboard' as TabType, label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'transactions' as TabType, label: 'Transactions', icon: Receipt, badge: '2 Flagged' },
-    { id: 'invoices' as TabType, label: 'Sales/Invoices', icon: FileText, badge: '3 Overdue' },
+    { id: 'transactions' as TabType, label: 'Transactions', icon: Receipt },
+    { id: 'invoices' as TabType, label: 'Sales/Invoices', icon: FileText },
     { id: 'expenses' as TabType, label: 'Expenses', icon: CreditCard },
     { id: 'bank' as TabType, label: 'Bank & Cash', icon: Landmark },
     { id: 'customers' as TabType, label: 'Customers', icon: Users },
     { id: 'suppliers' as TabType, label: 'Suppliers', icon: Boxes },
     { id: 'reports' as TabType, label: 'Reports', icon: BarChart3 },
-    { id: 'tax' as TabType, label: 'Tax & SST', icon: Wallet, badge: 'Due in 15d' },
+    { id: 'tax' as TabType, label: 'Tax & SST', icon: Wallet },
   ];
 
   return (
@@ -112,11 +112,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 <span>{item.label}</span>
               </div>
               {item.badge && (
-                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                  isActive 
-                    ? 'bg-emerald-500 text-slate-900 shadow-sm' 
-                    : 'bg-gray-50 border border-gray-200 text-slate-600'
-                }`}>
+                <span className="text-[11px] font-bold px-2 py-0.5 bg-rose-500/20 text-rose-600 rounded-full">
                   {item.badge}
                 </span>
               )}
