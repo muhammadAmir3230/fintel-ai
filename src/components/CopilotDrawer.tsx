@@ -52,6 +52,16 @@ export const CopilotDrawer: React.FC<CopilotDrawerProps> = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    setMessages((prev) =>
+      prev.map((m) =>
+        m.id === 'm-1'
+          ? { ...m, text: `Hi ${businessProfile.ownerName || 'there'}! I'm your AI finance copilot. How can I help you grow your business today?` }
+          : m
+      )
+    );
+  }, [businessProfile.ownerName]);
+
   // Update contextual greetings/prompts based on current tab   
   useEffect(() => {
     if (currentTab === 'tax') {

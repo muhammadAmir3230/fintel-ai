@@ -25,9 +25,7 @@ export const Header: React.FC<HeaderProps> = ({
   const [showNotifications, setShowNotifications] = useState(false);
 
   const businesses = [
-    { name: "Aiman's Cafe (HQ Bangsar)", type: 'Main Branch' },
-    { name: "Aiman's Roastery (Subang)", type: 'Secondary' },
-    { name: "Aiman Catering & Events", type: 'Wholesale' },
+    { name: businessProfile.name, type: 'Main Branch' },
   ];
 
   return (
