@@ -15,6 +15,14 @@ export const ExpensesView: React.FC<ExpensesViewProps> = ({
 }) => {
   const expenseList = transactions.filter((t) => t.type === 'outflow');
   const totalExpense = expenseList.reduce((sum, t) => sum + t.amount, 0);
+  const money = (n: number) => 'RM ' + n.toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const catMap: Record<string, number> = {};
+  expenseList.forEach((t) => { catMap[t.category] = (catMap[t.category] || 0) + t.amount; });
+  const topEntry = Object.entries(catMap).sort((a, b) => b[1] - a[1])[0];
+  const topCategoryName = topEntry ? topEntry[0] : '—';
+  const topCategoryAmount = topEntry ? topEntry[1] : 0;
+  const topCategoryPct = totalExpense ? Math.round((topCategoryAmount / totalExpense) * 100) : 0;
+  const deductibleSST = totalExpense * 0.06; // 6% input tax
 
   return (
     <div className="space-y-6 select-none">
@@ -54,15 +62,15 @@ export const ExpensesView: React.FC<ExpensesViewProps> = ({
         <div className="glass-card bg-white/60 rounded-2xl p-5 shadow-level-1 border border-gray-200/80 group hover:border-emerald-500/50 transition-all">
           <span className="text-[11px] font-bold text-slate-600 uppercase tracking-wider">Top Category</span>
           <div className="font-bold text-2xl md:text-3xl text-slate-800 mt-2">
-            Staff Salaries (40%)
+            {topCategoryName} ({topCategoryPct}%)
           </div>
-          <p className="text-xs text-slate-500 mt-1">RM 27,284.00 allocated this month</p>
+          <p className="text-xs text-slate-500 mt-1">{money(topCategoryAmount)} allocated this month</p>
         </div>
 
         <div className="glass-card bg-white/60 rounded-2xl p-5 shadow-level-1 border border-gray-200/80 group hover:border-emerald-500/50 transition-all">
           <span className="text-[11px] font-bold text-slate-600 uppercase tracking-wider">Deductible SST Input Tax</span>
           <div className="font-bold text-2xl md:text-3xl text-emerald-400 mt-2">
-            RM 5,400.00
+            {money(deductibleSST)}
           </div>
           <p className="text-xs text-slate-500 mt-1">Credited against output tax</p>
         </div>
