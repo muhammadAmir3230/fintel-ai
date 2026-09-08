@@ -153,7 +153,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
         >
           <LogOut className="w-5 h-5" />
           <span>Sign out</span>
+        
+        {/* Feedback Button */}
         </button>
+                <button
+          onClick={() => window.open('https://forms.gle/HAP32U5vjMSJBMZh7', '_blank')}
+          className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 transition-all text-left"
+        >
+          <span>💬</span><span>Give Feedback</span>
+        </button>
+
       </div>
     </aside>
   );
