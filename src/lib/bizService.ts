@@ -14,7 +14,7 @@ function rowToProfile(row: any): BusinessProfile {
     defaultTaxRate: Number(row.tax_rate ?? 6),
     ownerName: row.owner_name ?? 'Owner',
     currency: row.currency ?? 'RM',
-    avatarUrl: '',
+    avatarUrl: row.avatar_url || ('https://ui-avatars.com/api/?name=' + encodeURIComponent(row.owner_name || 'User') + '&background=10B981&color=fff'),
     logoUrl: LOGO_URL,
   };
 }
@@ -42,7 +42,7 @@ export async function saveBusiness(profile: BusinessProfile): Promise<void> {
   const payload = {
     owner_id: user.id, name: profile.name, owner_name: profile.ownerName, ssm_no: profile.ssmNo,
     industry: profile.industry, financial_year_end: profile.financialYearEnd,
-    sst_registered: profile.sstRegistered, tax_rate: profile.defaultTaxRate, currency: profile.currency,
+    sst_registered: profile.sstRegistered, tax_rate: profile.defaultTaxRate, currency: profile.currency, avatar_url: profile.avatarUrl,
   };
   const { data: existing } = await supabase
     .from('businesses').select('id').eq('owner_id', user.id).limit(1).maybeSingle();
@@ -51,4 +51,16 @@ export async function saveBusiness(profile: BusinessProfile): Promise<void> {
   } else {
     await supabase.from('businesses').insert(payload);
   }
+
+}
+
+export async function uploadAvatar(file: File): Promise<string | null> {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return null;
+  const ext = (file.name.split('.').pop() || 'png').toLowerCase();
+  const path = `avatars/${user.id}-${Date.now()}.${ext}`;
+  const { error } = await supabase.storage.from('assets').upload(path, file, { upsert: true });
+  if (error) { console.error('uploadAvatar error', error); return null; }
+  const { data } = supabase.storage.from('assets').getPublicUrl(path);
+  return data.publicUrl;
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Settings, Save, ShieldCheck, Check, Building2, Bell, Cpu } from 'lucide-react';
 import { BusinessProfile } from '../types';
+import { uploadAvatar } from '../lib/bizService';
 
 interface SettingsViewProps {
   businessProfile: BusinessProfile;
@@ -10,6 +11,22 @@ interface SettingsViewProps {
 export const SettingsView: React.FC<SettingsViewProps> = ({ businessProfile, onSaveProfile }) => {
   const [formData, setFormData] = useState<BusinessProfile>({ ...businessProfile });
   const [saved, setSaved] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    const url = await uploadAvatar(file);
+    setUploading(false);
+    if (url) {
+      const updated = { ...formData, avatarUrl: url };
+      setFormData(updated);
+      onSaveProfile(updated); // save + update the header avatar immediately
+    } else {
+      alert('Upload failed — check the assets bucket + storage policy.');
+    }
+  };
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +52,18 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ businessProfile, onS
       )}
 
       <form onSubmit={handleSave} className="space-y-6">
+        <div className="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm flex items-center gap-5">
+          <img src={formData.avatarUrl} alt="Profile" className="w-16 h-16 rounded-full object-cover border border-gray-200" />
+          <div>
+            <h3 className="font-bold text-slate-900">Profile Photo</h3>
+            <p className="text-xs text-slate-500 mb-2">PNG or JPG.</p>
+            <label className="inline-flex items-center gap-2 cursor-pointer text-sm font-semibold text-emerald-600 hover:underline">
+              <input type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+              {uploading ? 'Uploading…' : 'Change photo'}
+            </label>
+          </div>
+        </div>
+        
         {/* Business Information Card */}
         <div className="glass-card bg-white/60 rounded-3xl p-6 md:p-8 shadow-level-1 border border-gray-200/80 space-y-4">
           <h3 className="font-bold text-lg text-slate-800 flex items-center gap-2">
