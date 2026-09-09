@@ -103,6 +103,16 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       </div>
     );
 
+  const gsList = [
+    { id: '1', label: 'Set up your business profile', completed: businessProfile.name !== 'My Business' && !businessProfile.name.endsWith("'s Business") },
+    { id: '2', label: 'Record your first transaction', completed: transactions.length > 0 },
+    { id: '3', label: 'Create your first invoice', completed: invoices.length > 0 },
+    { id: '4', label: 'Add a profile photo', completed: !!businessProfile.avatarUrl && !businessProfile.avatarUrl.includes('ui-avatars') },
+    { id: '5', label: 'Get your first paid invoice', completed: invoices.some((i) => i.status === 'paid') },
+  ];
+  const gsDone = gsList.filter((i) => i.completed).length;
+  const gsPct = Math.round((gsDone / gsList.length) * 100);
+
   return (
     <div className="space-y-6 select-none">
       {/* Quick Action Pills Row */}
@@ -228,7 +238,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
             <div className="flex items-center gap-1.5 mt-1.5 text-xs text-emerald-400 font-semibold">
               <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
-              <span>+15%</span>
+              <span><Delta pct={profitDelta} /></span>
               <span className="text-slate-500 font-normal">vs last month</span>
             </div>
           </div>
@@ -302,110 +312,65 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
       </section>
 
-      {/* Bottom Row: To-Do & Alerts + Getting Started Checklist */}
+            {/* Bottom Row: To-Do & Alerts + Getting Started */}
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* To-Do & Alerts */}
-        <div className="glass-card bg-white/60 rounded-2xl p-5 md:p-6 shadow-level-1 border-l-4 border-l-rose-500 border border-gray-200/80 flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-base md:text-lg text-slate-800 flex items-center gap-2">
-                <AlertTriangle className="w-5 h-5 text-rose-400" />
-                <span>To-Do & Alerts</span>
-              </h3>
-              <span className="text-[11px] font-bold px-2.5 py-0.5 bg-rose-500/20 text-rose-300 border border-rose-500/30 rounded-full">
-                2 Actions Pending
-              </span>
-            </div>
-
-            <ul className="space-y-3">
-              {/* Alert 1 */}
-              <li 
-                onClick={() => onNavigateTab('invoices')}
-                className="flex items-start gap-3 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 cursor-pointer hover:bg-rose-500/15 transition-all group"
-              >
-                <div className="w-7 h-7 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 mt-0.5 flex-shrink-0">
-                  <AlertTriangle className="w-4 h-4" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-bold text-xs md:text-sm text-slate-600 group-hover:text-rose-300">{overdueInvoices.length} Overdue Invoices ({money(overdueTotal)})</h4>
-                    <span className="text-[11px] text-rose-400 font-semibold flex items-center gap-0.5">
-                      Review <ChevronRight className="w-3 h-3" />
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-600 mt-0.5">
-                    Apex Marketing & Aiman Events require follow-up to maintain healthy cashflow.
-                  </p>
-                </div>
-              </li>
-
-              {/* Alert 2 */}
-              <li 
-                onClick={onOpenSSTFiling}
-                className="flex items-start gap-3 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 cursor-pointer hover:bg-emerald-500/15 transition-all group"
-              >
-                <div className="w-7 h-7 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 mt-0.5 flex-shrink-0">
-                  <Calendar className="w-4 h-4" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-bold text-xs md:text-sm text-slate-600 group-hover:text-emerald-300">Keep your SST records up to date</h4>
-                    <span className="text-[11px] text-emerald-400 font-semibold flex items-center gap-0.5">
-                      Draft SST-02 <ChevronRight className="w-3 h-3" />
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-600 mt-0.5">
-                    Review your SST once your sales and expenses are in.
-                  </p>
-                </div>
-              </li>
-            </ul>
+        <div className="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-gray-200">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-bold text-base md:text-lg text-slate-900 flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5 text-rose-500" /><span>To-Do & Alerts</span>
+            </h3>
           </div>
+          <ul className="space-y-3">
+            {overdueInvoices.length > 0 && (
+              <li onClick={() => onNavigateTab('invoices')} className="flex items-start gap-3 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 cursor-pointer hover:bg-rose-500/15 group">
+                <div className="w-7 h-7 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-500 mt-0.5 flex-shrink-0"><AlertTriangle className="w-4 h-4" /></div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-bold text-xs md:text-sm text-slate-700">{overdueInvoices.length} Overdue Invoice(s) ({money(overdueTotal)})</h4>
+                    <span className="text-[11px] text-rose-500 font-semibold flex items-center gap-0.5">Review <ChevronRight className="w-3 h-3" /></span>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-0.5">Follow up on overdue invoices to keep cashflow healthy.</p>
+                </div>
+              </li>
+            )}
+            {(totalRevenue > 0 || totalExpenses > 0) && (
+              <li onClick={onOpenSSTFiling} className="flex items-start gap-3 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 cursor-pointer hover:bg-emerald-500/15 group">
+                <div className="w-7 h-7 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-600 mt-0.5 flex-shrink-0"><Calendar className="w-4 h-4" /></div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-bold text-xs md:text-sm text-slate-700">Keep your SST records up to date</h4>
+                    <span className="text-[11px] text-emerald-600 font-semibold flex items-center gap-0.5">Draft SST-02 <ChevronRight className="w-3 h-3" /></span>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-0.5">Review your SST once sales and expenses are in.</p>
+                </div>
+              </li>
+            )}
+            {overdueInvoices.length === 0 && totalRevenue === 0 && totalExpenses === 0 && (
+              <li className="p-6 text-center text-sm text-slate-400">🎉 You're all caught up — no pending actions.</li>
+            )}
+          </ul>
         </div>
 
-        {/* Getting Started Checklist */}
-        <div className="glass-card bg-white/60 rounded-2xl p-5 md:p-6 shadow-level-1 border border-gray-200/80 flex flex-col justify-between">
-          <div>
-            <div className="flex justify-between items-center mb-2">
-              <h3 className="font-bold text-base md:text-lg text-slate-800 flex items-center gap-2">
-                <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-                <span>Getting Started</span>
-              </h3>
-              <span className="text-xs font-bold bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 px-2.5 py-1 rounded-full">
-                {completedCount}/{checklist.length} Done
-              </span>
-            </div>
-
-            {/* Progress Bar */}
-            <div className="w-full bg-gray-50/80 h-2 rounded-full mb-4 overflow-hidden border border-gray-200/50">
-              <div 
-                className="bg-gradient-to-r from-emerald-500 to-emerald-500 h-full rounded-full transition-all duration-500 shadow-sm"
-                style={{ width: `${progressPercent}%` }}
-              ></div>
-            </div>
-
-            {/* Checklist Items */}
-            <ul className="space-y-2">
-              {checklist.map((item) => (
-                <li
-                  key={item.id}
-                  onClick={() => onToggleChecklistItem(item.id)}
-                  className={`flex items-center gap-3 p-2 rounded-xl text-xs md:text-sm cursor-pointer transition-all ${
-                    item.completed
-                      ? 'text-slate-500 line-through bg-white/30'
-                      : 'text-slate-600 hover:bg-gray-50/60 font-medium'
-                  }`}
-                >
-                  {item.completed ? (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                  ) : (
-                    <Circle className="w-4 h-4 text-slate-600 flex-shrink-0" />
-                  )}
-                  <span>{item.label}</span>
-                </li>
-              ))}
-            </ul>
+        {/* Getting Started */}
+        <div className="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-gray-200">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="font-bold text-base md:text-lg text-slate-900 flex items-center gap-2">
+              <CheckCircle2 className="w-5 h-5 text-emerald-500" /><span>Getting Started</span>
+            </h3>
+            <span className="text-xs font-bold bg-emerald-500/20 border border-emerald-500/30 text-emerald-600 px-2.5 py-1 rounded-full">{gsDone}/{gsList.length} Done</span>
           </div>
+          <div className="w-full bg-gray-100 h-2 rounded-full mb-4 overflow-hidden">
+            <div className="bg-emerald-500 h-full rounded-full transition-all duration-500" style={{ width: `${gsPct}%` }}></div>
+          </div>
+          <ul className="space-y-2">
+            {gsList.map((item) => (
+              <li key={item.id} className={`flex items-center gap-3 p-2 rounded-xl text-xs md:text-sm ${item.completed ? 'text-slate-400 line-through' : 'text-slate-600 font-medium'}`}>
+                {item.completed ? <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" /> : <Circle className="w-4 h-4 text-slate-400 flex-shrink-0" />}
+                <span>{item.label}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
     </div>
