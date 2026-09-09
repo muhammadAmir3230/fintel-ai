@@ -87,6 +87,21 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
     name, amount, value: _catTotal ? Math.round((amount / _catTotal) * 100) : 0, color: _palette[i % _palette.length],
   }));
 
+  // month-over-month deltas (hidden when there's no prior month)
+  const _cur = monthly[monthly.length - 1] || { income: 0, expenses: 0 };
+  const _prev = monthly[monthly.length - 2] || { income: 0, expenses: 0 };
+  const pctDelta = (c: number, p: number) => (p > 0 ? Math.round(((c - p) / p) * 100) : null);
+  const revDelta = pctDelta(_cur.income, _prev.income);
+  const expDelta = pctDelta(_cur.expenses, _prev.expenses);
+  const profitDelta = pctDelta(_cur.income - _cur.expenses, _prev.income - _prev.expenses);
+
+  const Delta: React.FC<{ pct: number | null }> = ({ pct }) =>
+    pct === null ? null : (
+      <div className={`flex items-center gap-1.5 mt-1.5 text-xs font-semibold ${pct >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
+        <span>{pct >= 0 ? '▲' : '▼'} {Math.abs(pct)}%</span>
+        <span className="text-slate-500 font-normal">vs last month</span>
+      </div>
+    );
 
   return (
     <div className="space-y-6 select-none">
@@ -167,7 +182,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
             <div className="flex items-center gap-1.5 mt-1.5 text-xs text-emerald-400 font-semibold">
               <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
-              <span>+12%</span>
+              <span><Delta pct={revDelta} /></span>
               <span className="text-slate-500 font-normal">vs last month</span>
             </div>
           </div>
@@ -190,7 +205,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
             <div className="flex items-center gap-1.5 mt-1.5 text-xs text-rose-400 font-semibold">
               <TrendingUp className="w-3.5 h-3.5 stroke-[2.5]" />
-              <span>+5%</span>
+              <span><Delta pct={expDelta} /></span>
               <span className="text-slate-500 font-normal">vs last month</span>
             </div>
           </div>
@@ -236,7 +251,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
             <div className="flex items-center gap-1.5 mt-1.5 text-xs text-emerald-400 font-semibold">
               <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
-              <span>+2%</span>
+              <span><Delta pct={profitDelta} /></span>
               <span className="text-slate-500 font-normal">vs last month</span>
             </div>
           </div>
