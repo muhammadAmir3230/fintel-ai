@@ -33,7 +33,6 @@ export function App() {
   const [currentTab, setCurrentTab] = useState<TabType>('dashboard');
   const [copilotOpen, setCopilotOpen] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-
   const [businessProfile, setBusinessProfile] = useState<BusinessProfile>(initialBusinessProfile);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
 
@@ -63,6 +62,9 @@ export function App() {
   const [isHelpOpen, setIsHelpOpen] = useState(false);
 
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [needsSetup, setNeedsSetup] = useState(false);
+  const [needsSetup, setNeedsSetup] = useState(false);
+
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3500);
