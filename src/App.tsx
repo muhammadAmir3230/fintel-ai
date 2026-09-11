@@ -31,14 +31,20 @@ import {
 
 export function App() {
   const [currentTab, setCurrentTab] = useState<TabType>('dashboard');
-  const [copilotOpen, setCopilotOpen] = useState(true);
+  const [copilotOpen, setCopilotOpen] = useState(typeof window !== 'undefined' && window.innerWidth >= 1024);
   const [searchTerm, setSearchTerm] = useState('');
+
   const [businessProfile, setBusinessProfile] = useState<BusinessProfile>(initialBusinessProfile);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
 
-    useEffect(() => {
+  useEffect(() => {
     getOrCreateBusiness().then((p) => {
-      if (p) setBusinessProfile(p);
+      if (p) {
+        setBusinessProfile(p);
+        if (p.name === 'My Business' || p.name.endsWith("'s Business")) {
+          setNeedsSetup(true);
+        }
+      }
       getInvoices().then(setInvoices);
       getTransactions().then(setTransactions);
     });
@@ -63,7 +69,7 @@ export function App() {
 
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [needsSetup, setNeedsSetup] = useState(false);
-  const [needsSetup, setNeedsSetup] = useState(false);
+
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -128,6 +134,21 @@ export function App() {
   const selectedReminderInvoice = invoices.find((i) => i.id === selectedReminderInvoiceId) || invoices[0] || null;
   const nextInvoiceNumber = `INV-2024-${String(invoices.length + 1).padStart(3, '0')}`;
 
+  if (needsSetup) {
+    return (
+      <div className="min-h-screen bg-[#f8f9ff]">
+        <OnboardingModal
+          isOpen={true}
+          onClose={() => setNeedsSetup(false)}
+          businessProfile={businessProfile}
+          onSaveProfile={(p) => { handleSaveProfile(p); setNeedsSetup(false); }}
+        />
+      </div>
+    );
+  }
+
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
   return (
     <div className="min-h-screen bg-[#f8f9ff] text-slate-900 flex relative selection:bg-emerald-500/30 selection:text-emerald-200">
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">

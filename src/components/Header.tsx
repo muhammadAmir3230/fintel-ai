@@ -10,6 +10,7 @@ interface HeaderProps {
   searchTerm: string;
   onSearchChange: (value: string) => void;
   onOpenHelp: () => void;
+  onOpenSidebar: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -19,7 +20,8 @@ export const Header: React.FC<HeaderProps> = ({
   onToggleCopilot,
   searchTerm,
   onSearchChange,
-  onOpenHelp
+  onOpenHelp,
+  onOpenSidebar
 }) => {
   const [showBizDropdown, setShowBizDropdown] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -31,15 +33,27 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header 
       id="top-navbar"
-      className="bg-[#f8f9ff]/80 backdrop-blur-xl sticky top-0 flex justify-between items-center w-full px-8 py-3.5 z-40 border-b border-gray-200/80"
+      className="bg-[#f8f9ff]/80 backdrop-blur-xl sticky top-0 flex justify-between items-center w-full px-4 md:px-8 py-3.5 z-40 border-b border-gray-200/80"
     >
-      {/* Left: Greeting & Search */}
-      <div className="flex items-center gap-6 flex-1">
-        <div className="flex items-center gap-2">
-          <span className="font-bold text-lg md:text-xl text-slate-800 tracking-tight">
+      {/* Left: Hamburger (mobile) + Greeting & Search */}
+      <div className="flex items-center gap-3 md:gap-6 flex-1 min-w-0">
+        <button
+          onClick={onOpenSidebar}
+          className="md:hidden p-2 -ml-1 rounded-lg hover:bg-gray-100 text-slate-700 shrink-0"
+          aria-label="Open menu"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="font-bold text-base md:text-xl text-slate-800 tracking-tight truncate">
             Good morning, {businessProfile.ownerName}
           </span>
-          <span className="text-xl animate-bounce duration-1000">👋</span>
+          <span className="text-xl animate-bounce duration-1000 hidden sm:inline">👋</span>
         </div>
 
         <div className="relative max-w-xs w-full hidden md:block">
@@ -65,7 +79,7 @@ export const Header: React.FC<HeaderProps> = ({
             className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-gray-200 bg-white/80 hover:border-gray-200 shadow-sm hover:shadow transition-all text-left"
           >
             <Store className="w-4 h-4 text-emerald-400" />
-            <span className="text-xs md:text-sm font-semibold text-slate-600 max-w-[120px] md:max-w-[160px] truncate">
+            <span className="text-xs md:text-sm font-semibold text-slate-600 max-w-[80px] md:max-w-[160px] truncate">
               {businessProfile.name}
             </span>
             <ChevronDown className="w-3.5 h-3.5 text-slate-600" />
@@ -118,7 +132,7 @@ export const Header: React.FC<HeaderProps> = ({
         </button>
 
         {/* Notifications */}
-        <div className="relative">
+        <div className="relative hidden sm:block">
           <button
             id="notifications-btn"
             onClick={() => setShowNotifications(!showNotifications)}
@@ -156,7 +170,7 @@ export const Header: React.FC<HeaderProps> = ({
         <button
           id="help-btn"
           onClick={onOpenHelp}
-          className="p-2 text-slate-600 hover:text-slate-900 hover:bg-gray-50/60 rounded-xl transition-all border border-transparent hover:border-gray-200"
+          className="p-2 text-slate-600 hover:text-slate-900 hover:bg-gray-50/60 rounded-xl transition-all border border-transparent hover:border-gray-200 hidden sm:inline-flex"
           title="Help & Malaysian Tax Rules"
         >
           <HelpCircle className="w-5 h-5" />
