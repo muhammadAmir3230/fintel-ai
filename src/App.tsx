@@ -32,10 +32,26 @@ import {
 export function App() {
   const [currentTab, setCurrentTab] = useState<TabType>('dashboard');
   const [copilotOpen, setCopilotOpen] = useState(typeof window !== 'undefined' && window.innerWidth >= 1024);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   const [businessProfile, setBusinessProfile] = useState<BusinessProfile>(initialBusinessProfile);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
+
+  const [checklist, setChecklist] = useState<ChecklistItem[]>(initialChecklist);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [filings, setFilings] = useState<SSTFiling[]>(sstFilingsHistory);
+
+  const [isNewInvoiceOpen, setIsNewInvoiceOpen] = useState(false);
+  const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
+  const [isDraftReminderOpen, setIsDraftReminderOpen] = useState(false);
+  const [selectedReminderInvoiceId, setSelectedReminderInvoiceId] = useState<string | null>(null);
+  const [isSSTFilingOpen, setIsSSTFilingOpen] = useState(false);
+  const [isReceiptScanOpen, setIsReceiptScanOpen] = useState(false);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
+
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [needsSetup, setNeedsSetup] = useState(false);
 
   useEffect(() => {
     getOrCreateBusiness().then((p) => {
@@ -55,22 +71,6 @@ export function App() {
     saveBusiness(p);
   };
 
-  const [checklist, setChecklist] = useState<ChecklistItem[]>(initialChecklist);
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [filings, setFilings] = useState<SSTFiling[]>(sstFilingsHistory);
-
-  const [isNewInvoiceOpen, setIsNewInvoiceOpen] = useState(false);
-  const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
-  const [isDraftReminderOpen, setIsDraftReminderOpen] = useState(false);
-  const [selectedReminderInvoiceId, setSelectedReminderInvoiceId] = useState<string | null>(null);
-  const [isSSTFilingOpen, setIsSSTFilingOpen] = useState(false);
-  const [isReceiptScanOpen, setIsReceiptScanOpen] = useState(false);
-  const [isHelpOpen, setIsHelpOpen] = useState(false);
-
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [needsSetup, setNeedsSetup] = useState(false);
-
-
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3500);
@@ -80,7 +80,7 @@ export function App() {
     setChecklist((prev) => prev.map((item) => (item.id === id ? { ...item, completed: !item.completed } : item)));
   };
 
-    const handleAddTransaction = async (newTx: Omit<Transaction, 'id'>) => {
+  const handleAddTransaction = async (newTx: Omit<Transaction, 'id'>) => {
     const created = await createTransaction(newTx);
     if (created) {
       setTransactions((prev) => [created, ...prev]);
@@ -90,7 +90,7 @@ export function App() {
     }
   };
 
-    const handleResolveFlagged = async (id: string) => {
+  const handleResolveFlagged = async (id: string) => {
     await resolveFlagged(id);
     setTransactions((prev) => prev.map((tx) => (tx.id === id ? { ...tx, status: 'completed', flagReason: undefined } : tx)));
     showToast('Transaction verified and unflagged.');
@@ -147,8 +147,6 @@ export function App() {
     );
   }
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  
   return (
     <div className="min-h-screen bg-[#f8f9ff] text-slate-900 flex relative selection:bg-emerald-500/30 selection:text-emerald-200">
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
@@ -163,9 +161,11 @@ export function App() {
         businessProfile={businessProfile}
         onOpenNewInvoice={() => setIsNewInvoiceOpen(true)}
         onOpenOnboarding={() => setIsOnboardingOpen(true)}
+        mobileOpen={sidebarOpen}
+        onCloseMobile={() => setSidebarOpen(false)}
       />
 
-      <div className="flex-1 flex flex-col pl-[280px] min-w-0 transition-all relative z-10">
+      <div className="flex-1 flex flex-col md:pl-[280px] min-w-0 transition-all relative z-10">
         <Header
           businessProfile={businessProfile}
           onUpdateBusinessName={(name) => handleSaveProfile({ ...businessProfile, name })}
@@ -174,9 +174,10 @@ export function App() {
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}
           onOpenHelp={() => setIsHelpOpen(true)}
+          onOpenSidebar={() => setSidebarOpen(true)}
         />
 
-        <main className={`flex-1 p-6 md:p-8 transition-all ${copilotOpen ? 'pr-[340px] xl:pr-[360px]' : ''}`}>
+        <main className={`flex-1 p-6 md:p-8 transition-all ${copilotOpen ? 'lg:pr-[340px] xl:pr-[360px]' : ''}`}>
           <div className="max-w-7xl mx-auto">
             {currentTab === 'dashboard' && (
               <DashboardView
